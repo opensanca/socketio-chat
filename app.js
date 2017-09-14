@@ -61,17 +61,22 @@ io.on('connection', function (socket) {
   });
 
   socket.on('join-room', (data) => {
+    // Sai da sala atual
     socket.leave(socket.room);
 
+    // Remove socket da array de usuarios daquela sala
     users[socket.room] = users[socket.room].filter((v) => {
       return v.socket_id !== socket.id
     });
 
+    // Emite um evento para atualizar as informacoes de sala dos outros usuarios
     io.in(socket.room).emit('client-user-disconnected', {users: users[socket.room]});
 
+    // Entra na nova sala
     socket.join(data.id);
     socket.room = data.id;
 
+    // Cria lista de mensagens/salas se nao estiverem criadas
     if (messages[socket.room] === undefined) {
       messages[socket.room] = [];
     }
@@ -80,16 +85,21 @@ io.on('connection', function (socket) {
       users[socket.room] = [];
     }
 
+    // Adiciona usuario na nova sala
     users[socket.room].push({nome: socket.nome, socket_id: socket.id})
+    // Emite evento com informacoes de mensagens e usuarios da nova sala
     socket.emit('client-join-room', {messages: messages[socket.room], users: users[socket.room]});
   });
 
+  // Evento disparado quando usuário desconecta do socket (cai internet, fecha aba)
   socket.on('disconnect', function () {
+
+    // Remove socket da array de usuarios daquela sala
     users[socket.room] = users[socket.room].filter((v) => {
       return v.socket_id !== socket.id
     });
 
-
+    // Emite um evento para atualizar as informacoes de sala dos outros usuarios
     io.in(socket.room).emit('client-user-disconnected', {users: users[socket.room]});
   });
 });
