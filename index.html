@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="modules/mustache/mustache.min.js"></script>
+
+        <script>
+            // Conecta no socket
+            const socket = io('http://localhost:3000');
+            var messages = [];
+            var users = [];
+            var messagesTemplate = '';
+            var usersTemplate = '';
+
+            $(document).ready(() => {
+                // Pré parseia o template de mensagens
+                messagesTemplate = $('#mensagens-tmpl').html();
+                Mustache.parse(messagesTemplate);
+
+                // Pré parseia o template de usuarios
+                usersTemplate = $('#users-tmpl').html();
+                Mustache.parse(usersTemplate);
+
+                let renderTemplate = function(template, msgs, target) {
+                    let rendered = Mustache.render(template, msgs);
+                    target.html(rendered);
+                };
+
+                socket.on('connected', (data) => {
+                    let nome = prompt("Qual seu nome?", "");
+                    socket.emit('connected-ack', {nome});
+                });
+
+                $('#enviar').click(() => {
+                    let msg = $('#input-msg').val();
+                    socket.emit('new-message', {msg});
+                    $('#input-msg').val('');
+                });
+
+                socket.on('client-new-message', (data) => {
+                    renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
+                });
+
+                socket.on('client-new-user', (data) => {
+                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+                });
+
+                socket.on('client-join-room', (data) => {
+                    renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
+                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+                });
+
+                socket.on('client-user-disconnected', (data) => {
+                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+                });
+
+                $('.sala').click((event) => {
+                    socket.emit('join-room', {id: $(event.target).attr('room')});
+                    $('#salaAtual').html(`Sala ${$(event.target).attr('room')}`);
+                })
+            });
+
+            
+
+        </script>
+    </head>
+    <body>
+
+         <h1>Opensanca Websockets Chat</h1>
+    
+         <input type="text" id="input-msg">  <button type="submit" id="enviar">Enviar</button>
+
+         <br><br>
+
+         <button class="sala" room="global">Sala Global</button>
+         <button class="sala" room="1">Sala 1</button>
+         <button class="sala" room="2">Sala 2</button>
+
+         <br><br><br>
+
+         Sala atual: <span id="salaAtual">Sala Global</span>
+
+         <br><br><br>
+
+         Mensagens
+
+        <script id="mensagens-tmpl" type="x-tmpl-mustache">
+            <ul id="mensagens">
+                {{#messages}}
+                <li class="mensagens-item">{{from}} - {{msg}}</li>
+                {{/messages}}
+            </ul>
+        </script>
+
+        <div id="mensagens-container">
+
+        </div>
+
+
+         <br><br><br>
+
+         Usuarios
+        <script id="users-tmpl" type="x-tmpl-mustache">
+            <ul id="users">
+                {{#users}}
+                <li class="users-item">{{socket_id}} - {{nome}}</li>
+                {{/users}}
+            </ul>
+        </script>
+
+        <div id="users-container">
+
+        </div>
+
+    
+    </body>
+</html>
