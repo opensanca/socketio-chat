@@ -64,6 +64,8 @@ io.on('connection', function (socket) {
     // Sai da sala atual
     socket.leave(socket.room);
 
+    console.log(`Usuario ${socket.nome} saindo da sala ${socket.room}`);
+
     // Remove socket da array de usuarios daquela sala
     users[socket.room] = users[socket.room].filter((v) => {
       return v.socket_id !== socket.id
@@ -75,6 +77,8 @@ io.on('connection', function (socket) {
     // Entra na nova sala
     socket.join(data.id);
     socket.room = data.id;
+
+    console.log(`Usuario ${socket.nome} entrou na sala ${socket.room}`);
 
     // Cria lista de mensagens/salas se nao estiverem criadas
     if (messages[socket.room] === undefined) {
@@ -88,7 +92,7 @@ io.on('connection', function (socket) {
     // Adiciona usuario na nova sala
     users[socket.room].push({nome: socket.nome, socket_id: socket.id})
     // Emite evento com informacoes de mensagens e usuarios da nova sala
-    socket.emit('client-join-room', {messages: messages[socket.room], users: users[socket.room]});
+    io.in(socket.room).emit('client-join-room', {messages: messages[socket.room], users: users[socket.room]});
   });
 
   // Evento disparado quando usuário desconecta do socket (cai internet, fecha aba)

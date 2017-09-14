@@ -34,6 +34,7 @@
                 socket.on('connected', (data) => {
                     let nome = prompt("Qual seu nome?", "");
                     socket.emit('connected-ack', {nome});
+                    $('#nomeUsuario').html(nome);
                 });
 
                 // Ação de enviar mensagem
@@ -78,6 +79,8 @@
     <body>
 
          <h1>Opensanca Websockets Chat</h1>
+
+         <h3>Bem vindo <span id="nomeUsuario"></span>
     
          <input type="text" id="input-msg">  <button type="submit" id="enviar">Enviar</button>
 
