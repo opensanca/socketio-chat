@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,600');
+
+:root {
+    --color-matrix: #b2dfdb;
+    --color-primary: #b9f;
+    --color-secondary: #FCA22B;
+    --color-tertiary: #6bb3ba;
+}
+
+body{
+	font-family: 'Raleway', sans-serif;
+	font-size: 16px;
+}
+
+.grid {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.col__20 {
+	width: 20%;	
+	background: #3E3A39;	
+}
+
+.col__70 {
+	padding:15px;
+	width: 78%;
+	background: #eee;  
+}
+
+.sidebar__menu li {
+	padding: 20px;
+    border-bottom: 1px solid rgba(239, 239, 239, 0.15);
+}
+
+.sidebar__menu li a {
+    color: #efefef;
+    font-size: 1.2rem;
+    font-family: "Roboto-Regular", sans-serif;
+    padding-left: 10px;
+}
+.sidebar__menu li a:hover {
+		color: #f1c40f;
+}
+
+.sidebar__menu li:hover {
+	background: #2c3e50;
+}
+
+
+.box__contacts {
+	padding: 10px 0 10px 0;
+}
+
+.box__contacts--title {
+	line-height: 49px;
+  color: #f1c40f;
+  font-size: 1rem;
+  display: inline;
+	padding-left:10px;
+}
+
+.box__contacts--search {
+	padding: 0 0 0 0;
+	height: 50px;
+	background: transparent;
+}
+
+.box__contacts--search input {
+	background:transparent;
+  margin: 8px 0 0 30px;
+  padding-left: 20px;
+    border: 1px solid var(--color-primary);
+		font-family: 'Raleway', sans-serif;
+    color: #fff;
+    width: 80%;
+    height: 30px;
+    font-size: .8rem;
+		letter-spacing:1px;
+    border-radius: 10px;
+}
+
+.box__contacts--search input:focus {
+	outline: -webkit-focus-ring-color auto 0;
+	outline-offset: 0;
+}
+
+.box__contacts--menu {
+	padding: 0 10px 10px 10px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.box__contacts--name {
+	padding-left: 20px;
+	padding-bottom: 5px;
+}
+
+.box__contacts--lastMessage {
+	color: #f1c40f;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+
+
+.box__contacts--statusOffline {
+	color: #e74c3c;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+
+
+.box__contacts--statusOnline {
+	color: #3498db;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+.box__contacts li {
+	padding: 20px 5px 30px 0;
+    border-bottom: 1px solid rgba(239, 239, 239, 0.15);
+	border-top: 1px solid rgba(239, 239, 239, 0.15);
+	transition: all .3s ease-in-out;
+}
+
+.box__contacts li:hover{
+    background: #524e57;
+	transform: scale(1.1);
+}
+
+.box__contacts--images {
+	border-radius: 50%;
+	width: 50px;
+  height: 50px;
+	float: left;
+	padding-left: 10px;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.body-message {
+	height:60vh;
+	min-height: 94vh;
+	background-color: #fff;
+	border: 2px solid  var(--color-matrix);
+}
+
+.sendMessage{
+	top:10px;
+	position:relative;
+}
+
+.icoMessage {
+	color: var(--color-matrix);  
+	font-size: 1.9em;
+	left:-10px;
+	top:-40px;
+	position: relative;
+	float:right;
+
+}
+.icoMessage::before {
+	background:var(--color-matrix);  
+  border-left: 1px solid #b2dfdb;
+	content: '';
+  width: 2px;
+  left: -10px;
+  height: 34px;
+  position: absolute;
+  top: 0px;
+}
+
+textarea {
+	position: relative;
+	font-size: 1.2em;
+	width:100%;
+	float: left;
+  outline: none;
+	resize: none;
+	border-style: solid;
+  border-width: 2px ;
+  border-right: hidden;
+  border-radius: 15px 0 15px 20px;
+  background: #fff;
+  border-color: #b2dfdb;
+}
+
+
+
+.outcomming-msg {
+    border-radius: 15px 15px 0px 20px;
+    border-color: #b2dfdb;
+}
+
+
+
+.message-box {
+	 border-radius: 15px 15px 0px 20px;
+    border-color: #b2dfdb;
+	background-color: #e0f2f1;
+    padding: 10px 20px;
+    margin: 15px 15px;
+    display: inline-block;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.message-box_resposta {
+	float:right;
+	position:static;
+	 border-radius: 15px 15px 0px 20px;
+    border-color: #8e44ad;
+	background-color: var(--color-primary);
+    padding: 10px 20px;
+    margin: 15px 15px;
+    display: inline-block;
+    border-style: solid;
+    border-width: 2px;
+		color:#fff;
+}
+
+.message_status {
+	height: 60px;
+}

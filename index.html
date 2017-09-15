@@ -1,102 +1,33 @@
-<html>
-    <head>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="modules/mustache/mustache.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Opensanca | ChatRoom</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="modules/mustache/mustache.min.js"></script>
+    <script src="https://use.fontawesome.com/cb48caa32e.js"></script>
+</head>
+<body>
 
-        <script>
-            // Conecta no socket
-            const socket = io('http://localhost:3000');
-            var messages = [];
-            var users = [];
-            var messagesTemplate = '';
-            var usersTemplate = '';
+    <h1>Opensanca | Websockets Chat</h1>
 
-            $(document).ready(() => {
-                // Pré parseia o template de mensagens
-                messagesTemplate = $('#mensagens-tmpl').html();
-                Mustache.parse(messagesTemplate);
+    <h3>Bem vindo <span id="nomeUsuario"></span>
 
-                // Pré parseia o template de usuarios
-                usersTemplate = $('#users-tmpl').html();
-                Mustache.parse(usersTemplate);
+        <input type="text" id="input-msg"> <button type="submit" id="enviar">Enviar</button>
 
+        <br><br>
 
-                // Função criada para facilitar a renderizacao de templates
-                // do mustache.js
-                // Aceita um template, dados e uma div target para renderizar
-                let renderTemplate = function(template, data, target) {
-                    let rendered = Mustache.render(template, data);
-                    target.html(rendered);
-                };
+        <button class="sala" room="global">Sala Global</button>
+        <button class="sala" room="1">Sala 1</button>
+        <button class="sala" room="2">Sala 2</button>
 
-                // Ao conectar no socket, pedir um nome
-                socket.on('connected', (data) => {
-                    let nome = prompt("Qual seu nome?", "");
-                    socket.emit('connected-ack', {nome});
-                    $('#nomeUsuario').html(nome);
-                });
+        <br><br><br> Sala atual: <span id="salaAtual">Sala Global</span>
 
-                // Ação de enviar mensagem
-                $('#enviar').click(() => {
-                    let msg = $('#input-msg').val();
-                    socket.emit('new-message', {msg});
-                    $('#input-msg').val('');
-                });
-
-                // Evento de receber uma nova mensagem
-                socket.on('client-new-message', (data) => {
-                    renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
-                });
-
-                // Evento de novo usuário conectado
-                socket.on('client-new-user', (data) => {
-                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-                });
-
-                // Evento de novo usuário na sala
-                socket.on('client-join-room', (data) => {
-                    renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
-                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-                });
-
-                // Evento de usuário desconectado
-                socket.on('client-user-disconnected', (data) => {
-                    renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-                });
-
-                // Mudança de sala
-                $('.sala').click((event) => {
-                    socket.emit('join-room', {id: $(event.target).attr('room')});
-                    $('#salaAtual').html(`Sala ${$(event.target).attr('room')}`);
-                })
-            });
-
-            
-
-        </script>
-    </head>
-    <body>
-
-         <h1>Opensanca Websockets Chat</h1>
-
-         <h3>Bem vindo <span id="nomeUsuario"></span>
-    
-         <input type="text" id="input-msg">  <button type="submit" id="enviar">Enviar</button>
-
-         <br><br>
-
-         <button class="sala" room="global">Sala Global</button>
-         <button class="sala" room="1">Sala 1</button>
-         <button class="sala" room="2">Sala 2</button>
-
-         <br><br><br>
-
-         Sala atual: <span id="salaAtual">Sala Global</span>
-
-         <br><br><br>
-
-         Mensagens
+        <br><br><br> Mensagens
 
         <script id="mensagens-tmpl" type="x-tmpl-mustache">
             <ul id="mensagens">
@@ -111,9 +42,7 @@
         </div>
 
 
-         <br><br><br>
-
-         Usuarios
+        <br><br><br> Usuarios
         <script id="users-tmpl" type="x-tmpl-mustache">
             <ul id="users">
                 {{#users}}
@@ -126,6 +55,5 @@
 
         </div>
 
-    
-    </body>
+</body>
 </html>
