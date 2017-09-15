@@ -48,6 +48,12 @@
           $('#input-msg').val('');
       });
 
+
+      //Ação de pegar o Enter e enviar msg 
+      $(document).keypress(function(e) {
+        if(e.which == 13) $('#enviar').click();
+    });
+
       // Evento de receber uma nova mensagem
       socket.on('client-new-message', (data) => {
           renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
@@ -110,7 +116,6 @@
       })
 
       $(document).on('click', '.private-item', (event) => {
-
           let private_id = $(event.target).attr('privateid');
 
           conversation = _.find(privateConversations, (v) => {

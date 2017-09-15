@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,600');
 
 
-
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -51,6 +50,23 @@ table {
 	border-spacing: 0;
 }
 
+/*
+	 ============ VARIABLES =================
+
+*/
+
+:root {
+	--color-matrix: #b2dfdb;
+  --color-primary: #b9f;
+  --color-secondary: #FCA22B;
+  --color-tertiary: #6bb3ba;
+}
+
+
+/*
+	 ============ HEADER =================
+
+*/
 
 
 body{
@@ -71,16 +87,41 @@ header .navigation__brand {
 	padding-left: 15px;
 }
 
+.acessRoom {
+	right: 40px;
+    position: absolute;
+    float: right;
+	top: 22px;
+	font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.acessRoom:hover:after {
+	content: '';
+    width: 20px;
+    height: 5px;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    color: #333;
+    background: var(--color-secondary);
+}
+
+/*
+	 ============ GRID =================
+
+*/
+
 .grid {
 		display: flex;
 		flex-wrap: wrap;
 }
 
 .col__20 {
-	width: 20%;	
+	width: 18%;
 	margin-top: 20px;
-	background: #3E3A39;	
-	height: 100vh;
+	margin-left: 20px;
+	background: #3E3A39;
 }
 
 .col__70 {
@@ -88,6 +129,13 @@ header .navigation__brand {
 	width: 78%;
 	background: #eee;  
 }
+
+
+/*
+	 ============ SIDEBAR =================
+
+*/
+
 
 .sidebar__menu li {
 	  padding: 20px;
@@ -109,16 +157,22 @@ header .navigation__brand {
 }
 
 
+/*
+	 ============ BOX-CONTACTS =================
+
+*/
+
 .box__contacts {
 	padding: 0;
 }
 
 .box__contacts--title {
 	line-height: 49px;
-  color: #f1c40f;
-  font-size: 1rem;
-  display: inline;
+  	color: #f1c40f;
+  	font-size: 1rem;
+  	display: inline;
 	padding-left:10px;
+	border-bottom: 1px solid;
 }
 
 .box__contacts--search {
@@ -176,10 +230,11 @@ header .navigation__brand {
 
 
 .box__contacts--statusOnline {
-	color: #3498db;
-	 padding-left: 20px;
-	line-height: 30px;
-	text-overflow: ellipsis;
+	color: #34cec0;
+    padding-left: 10px;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid;
 }
 
 .box__contacts li {
@@ -203,14 +258,21 @@ header .navigation__brand {
 	padding-left: 10px;
 }
 
+
+/*
+	 ============ SENDMESSAGE =================
+
+*/
+
+
 a {
 	color: #fff;
 	text-decoration: none;
 }
 
 .body-message {
-	height:60vh;
-	min-height: 94vh;
+	overflow-y: scroll;
+	height: 83vh;
 	background-color: #fff;
 	border: 2px solid  var(--color-matrix);
 }
@@ -256,20 +318,12 @@ textarea {
 }
 
 
-:root {
-	--color-matrix: #b2dfdb;
-  --color-primary: #b9f;
-    --color-secondary: #FCA22B;
-    --color-tertiary: #6bb3ba;
-}
+
 
 .outcomming-msg {
     border-radius: 15px 15px 0px 20px;
     border-color: #b2dfdb;
 }
-
-
-
 .message-box {
 	border-radius: 15px 15px 0px 20px;
     border-color: #b2dfdb;
@@ -285,15 +339,15 @@ textarea {
 .message-box_resposta {
 	float:right;
 	position:static;
-	 border-radius: 15px 15px 0px 20px;
-    border-color: #8e44ad;
+	border-radius: 15px 15px 0px 20px;
+  border-color: #8e44ad;
 	background-color: var(--color-primary);
-    padding: 10px 20px;
-    margin: 15px 15px;
-    display: inline-block;
-    border-style: solid;
-    border-width: 2px;
-		color:#fff;
+  padding: 10px 20px;
+  margin: 15px 15px;
+  display: inline-block;
+  border-style: solid;
+  border-width: 2px;
+	color:#fff;
 }
 
 .message_status {
