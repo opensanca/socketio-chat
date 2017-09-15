@@ -26,7 +26,10 @@
                 <ul class="navigation">
                     <li class="navigation__brand">
                         <div class="">
-                            <a href="#"> OpenJobs / <span id="salaAtual">Sala Global</span></a>
+                            <a href="#" class="">
+                                <i class="fa fa-comment-o fa-2x" aria-hidden="true"></i>
+                                OpenJobs / <span id="salaAtual">Sala Global</span>
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -35,18 +38,8 @@
 
         <div class="grid">
             <sidebar class="col__20 ">
-
-
-
-
                 <!--sidebar -->
                 <div class="box">
-
-                        <h4 class="box__contacts--title">
-                                <i class="fa fa-comment-o fa-2x" aria-hidden="true"></i>
-                             </h4>
-
-                             
                     <ul class="box__contacts" id="salasGlobais">
                         <li class="sala" room="global">
                             <a>
@@ -105,23 +98,26 @@
             <div class="col__70 js_wrapper">
                 <!--content -->
 
-                <div class="box__contacts--search">
-                    <input type="text" id="input-msg" placeholder="Digite sua mensagem..."> <button type="submit" id="enviar">Enviar</button>
-                </div>
-                <div id="mensagens-container">
+                
+                <div  class="body-message" id="mensagens-container">
 
                 </div>
+                <div class="sendMessage box__contacts--search">
+                        <textarea class="send-box" id="input-msg" placeholder="Digite sua mensagem..."> </textarea> 
+                        <span class="icoMessage" id="enviar">  <i class="fa fa-paper-plane" aria-hidden="true"></i> </span>
+                        <!--<button type="submit" id="enviar">Enviar</button>-->
+                    </div>
             </div>
 
 
         </div>
 
         <script id="mensagens-tmpl" type="x-tmpl-mustache">
-            <ul id="mensagens">
+            <div id="mensagens">
                 {{#messages}}
-                <li class="mensagens-item"><b>{{from}}</b> - {{msg}}</li>
+                <p class="message-box mensagens-item"><b>{{from}}</b> - {{msg}} <br></p>
                 {{/messages}}
-            </ul>
+            </div>
         </script>
 
         <script id="users-tmpl" type="x-tmpl-mustache">
