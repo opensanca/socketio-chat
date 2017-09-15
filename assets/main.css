@@ -6,62 +6,34 @@ body{
 	font-size: 16px;
 }
 
-
-
-.navigation {
-  display: flex;
-  flex-flow: row wrap;
-  /* This aligns items to the end line on main-axis */
-  justify-content: flex-start;
-	  margin: 0;
-  background: #797380;
-	
+header {
+	background: #a6abc6;
+    height: 65px;
 }
 
-.navigation__brand {
-	float: rigth;
-}
+header .navigation__brand {
+	list-style: none;
+	font-size: 1.3em;
+    line-height: 60px;
 
-.navigation a {
-  text-decoration: none;
-  display: block;
-  padding: 1em;
-  color: #fff;
-}
-
-.navigation a:hover {
-	color: #000;
-  background: #f1c40f;
 }
 
 .grid {
 		display: flex;
 		flex-wrap: wrap;
-	  transform: translateX(-10%);
-    transition: transform .12s ease-out;
-	min-height:100vh;
-}
-
-.col__10 {
-		width: 10%;		
-		background: #34495e;
 }
 
 .col__20 {
 	width: 20%;	
 	background: #3E3A39;	
-	overflow-y: scroll;
 }
 
 .col__70 {
-		width: 67%;
-		background: #eee;
-		padding: 20px;   
+	padding:15px;
+	width: 78%;
+	background: #eee;  
 }
 
-.js-showMenu {
-    transform: translateX(0);
-}
 .sidebar__menu li {
 	  padding: 20px;
     border-bottom: 1px solid rgba(239, 239, 239, 0.15);
@@ -81,7 +53,6 @@ body{
 	background: #2c3e50;
 }
 
-.box {}
 
 .box__contacts {
 	padding: 10px 0 10px 0;
@@ -91,21 +62,23 @@ body{
 	line-height: 49px;
   color: #f1c40f;
   font-size: 1rem;
-  display: inline
+  display: inline;
+	padding-left:10px;
 }
 
 .box__contacts--search {
 	padding: 0 0 0 0;
 	height: 50px;
-	background: rgb(151, 151, 151);
+	background: transparent;
 }
 
 .box__contacts--search input {
-    margin: 8px 0 0 30px;
-    padding-left: 20px;
-    border: 1px solid rgba(62, 58, 57, 0.24);
+	background:transparent;
+  margin: 8px 0 0 30px;
+  padding-left: 20px;
+    border: 1px solid var(--color-primary);
 		font-family: 'Raleway', sans-serif;
-    color: #666;
+    color: #fff;
     width: 80%;
     height: 30px;
     font-size: .8rem;
@@ -136,10 +109,41 @@ body{
 	text-overflow: ellipsis;
 }
 
+
+
+.box__contacts--statusOffline {
+	color: #e74c3c;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+
+
+.box__contacts--statusOnline {
+	color: #3498db;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+
+
+
+
+
+
 .box__contacts li {
 	  padding: 20px 5px 30px 0;
     border-bottom: 1px solid rgba(239, 239, 239, 0.15);
 	  border-top: 1px solid rgba(239, 239, 239, 0.15);
+	transition: all .3s ease-in-out;
+	
+}
+
+.box__contacts li:hover{
+    background: #524e57;
+	transform: scale(1.1);
 }
 
 .box__contacts--images {
@@ -155,21 +159,93 @@ a {
 	text-decoration: none;
 }
 
-
-@media (min-width: 901px) and (max-width: 1100px){
-	.col__10{
-		width: 15%;
-		background-color: #3498db;
-	}	
-	
-	.col__20{
-		width: 40%;
-	}
-	
-	.col__70 {
-		width: 38%;
-		background: #eee;
-		padding: 20px;   
+.body-message {
+	height:60vh;
+	min-height: 94vh;
+	background-color: #fff;
+	border: 2px solid  var(--color-matrix);
 }
-	
+
+.sendMessage{
+	top:10px;
+	position:relative;
+}
+
+.icoMessage {
+	color: var(--color-matrix);  
+	font-size: 1.9em;
+	left:-10px;
+	top:-40px;
+	position: relative;
+	float:right;
+
+}
+.icoMessage::before {
+	background:var(--color-matrix);  
+  border-left: 1px solid #b2dfdb;
+	content: '';
+  width: 2px;
+  left: -10px;
+  height: 34px;
+  position: absolute;
+  top: 0px;
+}
+
+textarea {
+	position: relative;
+	font-size: 1.2em;
+	width:100%;
+	float: left;
+  outline: none;
+	resize: none;
+	border-style: solid;
+  border-width: 2px ;
+  border-right: hidden;
+  border-radius: 15px 0 15px 20px;
+  background: #fff;
+  border-color: #b2dfdb;
+}
+
+
+:root {
+	--color-matrix: #b2dfdb;
+  --color-primary: #b9f;
+    --color-secondary: #FCA22B;
+    --color-tertiary: #6bb3ba;
+}
+
+.outcomming-msg {
+    border-radius: 15px 15px 0px 20px;
+    border-color: #b2dfdb;
+}
+
+
+
+.message-box {
+	 border-radius: 15px 15px 0px 20px;
+    border-color: #b2dfdb;
+	background-color: #e0f2f1;
+    padding: 10px 20px;
+    margin: 15px 15px;
+    display: inline-block;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.message-box_resposta {
+	float:right;
+	position:static;
+	 border-radius: 15px 15px 0px 20px;
+    border-color: #8e44ad;
+	background-color: var(--color-primary);
+    padding: 10px 20px;
+    margin: 15px 15px;
+    display: inline-block;
+    border-style: solid;
+    border-width: 2px;
+		color:#fff;
+}
+
+.message_status {
+	height: 60px;
 }
