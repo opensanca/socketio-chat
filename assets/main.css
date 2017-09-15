@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,600');
+
+
+body{
+	font-family: 'Raleway', sans-serif;
+	font-size: 16px;
+}
+
+
+
+.navigation {
+  display: flex;
+  flex-flow: row wrap;
+  /* This aligns items to the end line on main-axis */
+  justify-content: flex-start;
+	  margin: 0;
+  background: #797380;
+	
+}
+
+.navigation__brand {
+	float: rigth;
+}
+
+.navigation a {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: #fff;
+}
+
+.navigation a:hover {
+	color: #000;
+  background: #f1c40f;
+}
+
+.grid {
+		display: flex;
+		flex-wrap: wrap;
+	  transform: translateX(-10%);
+    transition: transform .12s ease-out;
+	min-height:100vh;
+}
+
+.col__10 {
+		width: 10%;		
+		background: #34495e;
+}
+
+.col__20 {
+	width: 20%;	
+	background: #3E3A39;	
+	overflow-y: scroll;
+}
+
+.col__70 {
+		width: 67%;
+		background: #eee;
+		padding: 20px;   
+}
+
+.js-showMenu {
+    transform: translateX(0);
+}
+.sidebar__menu li {
+	  padding: 20px;
+    border-bottom: 1px solid rgba(239, 239, 239, 0.15);
+}
+
+.sidebar__menu li a {
+    color: #efefef;
+    font-size: 1.2rem;
+    font-family: "Roboto-Regular", sans-serif;
+    padding-left: 10px;
+}
+.sidebar__menu li a:hover {
+		color: #f1c40f;
+}
+
+.sidebar__menu li:hover {
+	background: #2c3e50;
+}
+
+.box {}
+
+.box__contacts {
+	padding: 10px 0 10px 0;
+}
+
+.box__contacts--title {
+	line-height: 49px;
+  color: #f1c40f;
+  font-size: 1rem;
+  display: inline
+}
+
+.box__contacts--search {
+	padding: 0 0 0 0;
+	height: 50px;
+	background: rgb(151, 151, 151);
+}
+
+.box__contacts--search input {
+    margin: 8px 0 0 30px;
+    padding-left: 20px;
+    border: 1px solid rgba(62, 58, 57, 0.24);
+		font-family: 'Raleway', sans-serif;
+    color: #666;
+    width: 80%;
+    height: 30px;
+    font-size: .8rem;
+		letter-spacing:1px;
+    border-radius: 10px;
+}
+
+.box__contacts--search input:focus {
+	outline: -webkit-focus-ring-color auto 0;
+	outline-offset: 0;
+}
+
+.box__contacts--menu {
+	padding: 0 10px 10px 10px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.box__contacts--name {
+	padding-left: 20px;
+	padding-bottom: 5px;
+}
+
+.box__contacts--lastMessage {
+	color: #f1c40f;
+	 padding-left: 20px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+}
+
+.box__contacts li {
+	  padding: 20px 5px 30px 0;
+    border-bottom: 1px solid rgba(239, 239, 239, 0.15);
+	  border-top: 1px solid rgba(239, 239, 239, 0.15);
+}
+
+.box__contacts--images {
+	border-radius: 50%;
+	width: 50px;
+  height: 50px;
+	float: left;
+	padding-left: 10px;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+}
+
+
+@media (min-width: 901px) and (max-width: 1100px){
+	.col__10{
+		width: 15%;
+		background-color: #3498db;
+	}	
+	
+	.col__20{
+		width: 40%;
+	}
+	
+	.col__70 {
+		width: 38%;
+		background: #eee;
+		padding: 20px;   
+}
+	
+}
