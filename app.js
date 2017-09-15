@@ -4,6 +4,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 app.use('/modules', express.static(__dirname + '/node_modules/'));
+app.use('/assets', express.static(__dirname + '/assets/'));
 server.listen(3000);
 
 
@@ -31,33 +32,45 @@ io.on('connection', function (socket) {
   if (users[socket.room] === undefined) {
     users[socket.room] = [];
   }
-  
+
   // Mensagem enviada para todos que conectarem
-  socket.emit('connected', { msg: 'test' });
-  
+  socket.emit('connected', {
+    msg: 'test'
+  });
+
   // Mensagem recebida do usuario com seu nome
   socket.on('connected-ack', function (data) {
     // É possível guardar qualquer variavel no socket
     // entao guardaremos o nome
     socket.nome = data.nome;
     // Inserimos o novo usuario na sua devida sala; Usado para a lista de usuarios
-    users[socket.room].push({nome: socket.nome, socket_id: socket.id});
-    io.in(socket.room).emit('client-new-user', {users: users[socket.room]});
+    users[socket.room].push({
+      nome: socket.nome,
+      socket_id: socket.id
+    });
+    io.in(socket.room).emit('client-new-user', {
+      users: users[socket.room]
+    });
   });
 
   // Recebe uma mensagem enviada por um usuario e guarda
   // numa variavel global com todas as mensagens (messages)
   socket.on('new-message', (data) => {
     // Adiciona a mensagem no array de mensagens
-    messages[socket.room].push({from: socket.nome, msg: data.msg})
+    messages[socket.room].push({
+      from: socket.nome,
+      msg: data.msg
+    })
 
     // socket.broadcast envia mensagem pra todos os usuários
     // menos o que mandou
     // socket.broadcast.emit('client-new-message', {messages});
 
     // envia a nova mensagem para a sala
-    io.in(socket.room).emit('client-new-message', {messages: messages[socket.room]});
-    
+    io.in(socket.room).emit('client-new-message', {
+      messages: messages[socket.room]
+    });
+
   });
 
   socket.on('join-room', (data) => {
@@ -72,7 +85,9 @@ io.on('connection', function (socket) {
     });
 
     // Emite um evento para atualizar as informacoes de sala dos outros usuarios
-    io.in(socket.room).emit('client-user-disconnected', {users: users[socket.room]});
+    io.in(socket.room).emit('client-user-disconnected', {
+      users: users[socket.room]
+    });
 
     // Entra na nova sala
     socket.join(data.id);
@@ -90,9 +105,15 @@ io.on('connection', function (socket) {
     }
 
     // Adiciona usuario na nova sala
-    users[socket.room].push({nome: socket.nome, socket_id: socket.id})
+    users[socket.room].push({
+      nome: socket.nome,
+      socket_id: socket.id
+    })
     // Emite evento com informacoes de mensagens e usuarios da nova sala
-    io.in(socket.room).emit('client-join-room', {messages: messages[socket.room], users: users[socket.room]});
+    io.in(socket.room).emit('client-join-room', {
+      messages: messages[socket.room],
+      users: users[socket.room]
+    });
   });
 
   // Evento disparado quando usuário desconecta do socket (cai internet, fecha aba)
@@ -104,6 +125,8 @@ io.on('connection', function (socket) {
     });
 
     // Emite um evento para atualizar as informacoes de sala dos outros usuarios
-    io.in(socket.room).emit('client-user-disconnected', {users: users[socket.room]});
+    io.in(socket.room).emit('client-user-disconnected', {
+      users: users[socket.room]
+    });
   });
 });
