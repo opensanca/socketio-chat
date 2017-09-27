@@ -1,41 +1,91 @@
   // Conecta no socket
-  const socket = io('http://localhost:3000');
+  var socket = io;
   var messages = [];
   var users = [];
   var messagesTemplate = '';
   var usersTemplate = '';
   var private = false;
   var private_id = null;
-  var privateConversations = []; 
+  var privateConversations = [];
+
+  var entrar = function() {
+    socket = socket.connect();
+
+     // Ao conectar no socket, pedir um nome
+     socket.on('connected', (data) => {
+        let nome = prompt("Qual seu nome?", "");
+        socket.emit('connected-ack', {nome});
+        $('#nomeUsuario').html(nome);
+    });
+
+    // Função criada para facilitar a renderizacao de templates
+    // do mustache.js
+    // Aceita um template, dados e uma div target para renderizar
+    let renderTemplate = function(template, data, target) {
+        let rendered = Mustache.render(template, data);
+        target.html(rendered);
+    };
+
+    // Evento de receber uma nova mensagem
+    socket.on('client-new-message', (data) => {
+        renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
+    });
+
+    // Evento de novo usuário conectado
+    socket.on('client-new-user', (data) => {
+        renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+    });
+
+    // Evento de novo usuário na sala
+    socket.on('client-join-room', (data) => {
+        renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
+        renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+    });
+
+    // Evento de usuário desconectado
+    socket.on('client-user-disconnected', (data) => {
+        renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
+    });
+
+    // Evento de entrar em sala privada
+    socket.on('client-join-private-room', (data) => {
+        renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
+    });
+
+    socket.on('client-private-message', (data) => {
+        console.log('New Private Message Received!');
+        console.log(data);
+
+        conversation = _.find(privateConversations, (v) => {
+            return v.id == data.id
+        });
+
+        if (conversation === undefined) {
+            privateConversations.push(data);
+        } else {
+            conversation = data;
+            conversation.hasNewMessage = true;
+        }
+        
+        renderTemplate(privatesTemplate, {privates: privateConversations}, $('#privates-container'));
+    });
+
+
+  }
 
   $(document).ready(() => {
-      // Pré parseia o template de mensagens
-      messagesTemplate = $('#mensagens-tmpl').html();
-      Mustache.parse(messagesTemplate);
 
-      // Pré parseia o template de usuarios
-      usersTemplate = $('#users-tmpl').html();
-      Mustache.parse(usersTemplate);
-
-      // Pré parseia o template de novas mensagens privadas
-      privatesTemplate = $('#privates-tmpl').html();
-      Mustache.parse(privatesTemplate);
-
-
-      // Função criada para facilitar a renderizacao de templates
-      // do mustache.js
-      // Aceita um template, dados e uma div target para renderizar
-      let renderTemplate = function(template, data, target) {
-          let rendered = Mustache.render(template, data);
-          target.html(rendered);
-      };
-
-      // Ao conectar no socket, pedir um nome
-      socket.on('connected', (data) => {
-          let nome = prompt("Qual seu nome?", "");
-          socket.emit('connected-ack', {nome});
-          $('#nomeUsuario').html(nome);
-      });
+     // Pré parseia o template de mensagens
+     messagesTemplate = $('#mensagens-tmpl').html();
+     Mustache.parse(messagesTemplate);
+ 
+     // Pré parseia o template de usuarios
+     usersTemplate = $('#users-tmpl').html();
+     Mustache.parse(usersTemplate);
+ 
+     // Pré parseia o template de novas mensagens privadas
+     privatesTemplate = $('#privates-tmpl').html();
+     Mustache.parse(privatesTemplate);
 
       // Ação de enviar mensagem
       $('#enviar').click(() => {
@@ -48,54 +98,9 @@
           $('#input-msg').val('');
       });
 
-
       //Ação de pegar o Enter e enviar msg 
       $(document).keypress(function(e) {
         if(e.which == 13) $('#enviar').click();
-    });
-
-      // Evento de receber uma nova mensagem
-      socket.on('client-new-message', (data) => {
-          renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
-      });
-
-      // Evento de novo usuário conectado
-      socket.on('client-new-user', (data) => {
-          renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-      });
-
-      // Evento de novo usuário na sala
-      socket.on('client-join-room', (data) => {
-          renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
-          renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-      });
-
-      // Evento de usuário desconectado
-      socket.on('client-user-disconnected', (data) => {
-          renderTemplate(usersTemplate, {users: data.users}, $('#users-container'));
-      });
-
-      // Evento de entrar em sala privada
-      socket.on('client-join-private-room', (data) => {
-          renderTemplate(messagesTemplate, {messages: data.messages}, $('#mensagens-container'));
-      });
-
-      socket.on('client-private-message', (data) => {
-          console.log('New Private Message Received!');
-          console.log(data);
-
-          conversation = _.find(privateConversations, (v) => {
-              return v.id == data.id
-          });
-
-          if (conversation === undefined) {
-              privateConversations.push(data);
-          } else {
-              conversation = data;
-              conversation.hasNewMessage = true;
-          }
-          
-          renderTemplate(privatesTemplate, {privates: privateConversations}, $('#privates-container'));
       });
 
       // Mudança de sala
